@@ -1,0 +1,40 @@
+### register
+
+POST http://localhost:8000/api/users/register
+Content-Type: application/json
+
+{
+    "firstName": "Pariwesh",
+    "lastName": "Tamrakar",
+    "username": "pariwesh7",
+    "email": "user@example.com",
+    "password": "C.ronaldo7"
+}
+
+### Login User
+POST http://localhost:8000/api/users/login
+Content-Type: application/json
+
+{
+    "username": "pariwesh7",
+    "password": "C.ronaldo7"
+}
+
+
+### Update user
+POST http://localhost:8000/api/users/623be7cbd0422f37d6b5e225/
+Content-Type: : application/json
+
+{
+    "currentPassword": "Pariwesh.7",
+    "password": "C.ronaldo7"
+}
+
+### Update user
+PATCH http://localhost:8000/api/users/623be7cbd0422f37d6b5e225/
+Content-Type: : application/json
+
+{
+    "description": "asdasdasdsd",
+    "userId": "623be7cbd0422f37d6b5e225"
+}
