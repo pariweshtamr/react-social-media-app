@@ -13,7 +13,7 @@ export const createUser = (newUser) => {
 }
 
 export const deleteUser = (id) => {
-  return User.deleteOne(id)
+  return User.findByIdAndDelete(id)
 }
 
 export const getUserById = (id) => {

@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Router } from 'express'
 import { comparePassword, hashPassword } from '../helpers/bcrypt.helper.js'
 import {
   createUser,
@@ -109,9 +109,39 @@ userRouter.delete('/:id', async (req, res) => {
     return res.status(403).json('You can only delete your account!')
   }
 })
+
 // get a user
+userRouter.get('/:id', async (req, res) => {
+  try {
+    const user = await getUserById(req.params.id)
+    const { password, isAdmin, updatedAt, ...other } = user._doc //.doc carries the whole object (user)
+    res.status(200).json(other)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+})
 
 // follow a user
+userRouter.put('/:id/follow', async (req, res) => {
+  if (req.body.userId !== req.params.id) {
+    try {
+      const user = await getUserById(req.params.id)
+      const currentUser = await getUserById(req.body.userId)
+
+      if (!user.followers.includes(req.body.userId)) {
+        await user.updateOne({ $push: { followers: req.body.userId } })
+        await currentUser.updateOne({ $push: { following: req.body.userId } })
+        res.status(200).json('You are now following this user')
+      } else {
+        res.status(403).json('You are already following this user')
+      }
+    } catch (error) {
+      res.status(500).json(error)
+    }
+  } else {
+    res.status(403).json('You cannot follow yourself')
+  }
+})
 
 // unfollow a user
 

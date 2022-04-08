@@ -4,10 +4,10 @@ POST http://localhost:8000/api/users/register
 Content-Type: application/json
 
 {
-    "firstName": "Pariwesh",
+    "firstName": "Prerana",
     "lastName": "Tamrakar",
-    "username": "pariwesh7",
-    "email": "user@example.com",
+    "username": "prerana04",
+    "email": "user2@example.com",
     "password": "C.ronaldo7"
 }
 
@@ -20,12 +20,24 @@ Content-Type: application/json
     "password": "C.ronaldo7"
 }
 
+### delete user
+DELETE http://localhost:8000/api/users/6250275605a33279a9d8fb49
 
+### get user
+GET http://localhost:8000/api/users/6250275605a33279a9d8fb49
 
 ### Update user
-PUT http://localhost:8000/api/users/624fcc6711f52d8cb772e4d0/
+PUT http://localhost:8000/api/users/6250275605a33279a9d8fb49/
 Content-Type: : application/json
 
 {
-    "description": "asdasdasdsd",
+    "description": "asdasdasdsd"
+}
+
+### follow a user
+PUT http://localhost:8000/api/users/62502a547f1d5fd530486e25/follow
+Content-Type: application/json
+
+{
+    "userId": "6250275605a33279a9d8fb49"
 }
