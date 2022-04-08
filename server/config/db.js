@@ -8,7 +8,8 @@ const mongoClient = async () => {
   }
   try {
     const connectionString = await mongoose.connect(
-      process.env.MONGO_CLIENT || 'mongodb://localhost/social_media_app',
+      process.env.MONGO_CLIENT ||
+        'mongodb+srv://pariwesh:C.ronaldo7@mern.wnhiq.mongodb.net/Soccer_Store?retryWrites=true&w=majority',
     )
     if (connectionString) {
       return console.log('MongoDB Connected')

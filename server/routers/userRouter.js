@@ -2,6 +2,7 @@ import express from 'express'
 import { comparePassword, hashPassword } from '../helpers/bcrypt.helper.js'
 import {
   createUser,
+  deleteUser,
   getUserById,
   getUserByUsername,
 } from '../models/User.model.js'
@@ -64,71 +65,54 @@ userRouter.post('/login', async (req, res) => {
 })
 
 // update user
-userRouter.patch('/:id', async (req, res) => {
-  console.log(req.body)
-  if (req.body.userId === req.params.id) {
-    const result = updateUserProfile(req.body.userId, req.body)
-    if (result?._id) {
-      return res.json({
-        status: 'success',
-        message: 'Your profile has been updated successfully',
-      })
-    }
-    return res.json({
-      status: 'error',
-      message: 'Unable to update user information. Please try again later.',
-    })
-  } else {
-    return res.json({
-      status: 'error',
-      message: 'Unable to update user information. Please try again later.',
-    })
-  }
-})
+userRouter.put('/:id', async (req, res) => {
+  const user = await getUserById(req.params.id)
 
-//Update password when logged in
-userRouter.post('/:id/password-update', async (req, res) => {
-  try {
-    const id = req.params.id
-    const user = await getUserById(id)
-    const { _id, password } = user
-    const { currentPassword } = req.body
-    console.log(currentPassword, req.body)
+  req.user = user
+  const { _id } = req.user
 
-    //make sure the current password matches the one in the database
-    const passMatched = comparePassword(currentPassword, password)
-    if (passMatched) {
-      // if matched, then encrypt the new password and store in db
-      const hashedPass = hashPassword(req.body.password)
-      if (hashedPass) {
-        //update user table
-        const user = await updateUserProfile(_id, { password: hashedPass })
-        if (user._id) {
-          res.json({
-            status: 'success',
-            message: 'Password updated successfully',
-          })
-          return
-        }
+  if (_id === req.params.id || !user.isAdmin) {
+    console.log(req.body)
+    if (req.body.password) {
+      try {
+        req.body.password = hashPassword(req.body.password)
+      } catch (error) {
+        return res.status(500).json(error)
       }
     }
-    res.json({
-      status: 'error',
-      message: 'Unable to update password. Please try again later.',
-    })
-  } catch (error) {
-    res.json({
-      status: 'error',
-      message: 'Error, unable to process your request.',
-    })
+    try {
+      const updateUser = await updateUserProfile(_id, { $set: req.body })
+      res.status(200).json('Account has been updated')
+    } catch (error) {
+      return res.status(500).json(error)
+    }
+  } else {
+    return res.status(403).json('You can only update your account!')
   }
 })
 
 // delete user
+userRouter.delete('/:id', async (req, res) => {
+  const user = await getUserById(req.params.id)
 
+  req.user = user
+  const { _id } = req.user
+
+  if (_id === req.params.id || !user.isAdmin) {
+    try {
+      const user = await deleteUser(_id)
+      res.status(200).json('Account has been deleted')
+    } catch (error) {
+      return res.status(500).json(error)
+    }
+  } else {
+    return res.status(403).json('You can only delete your account!')
+  }
+})
 // get a user
 
 // follow a user
 
 // unfollow a user
+
 export default userRouter

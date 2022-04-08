@@ -21,20 +21,11 @@ Content-Type: application/json
 }
 
 
-### Update user
-POST http://localhost:8000/api/users/623be7cbd0422f37d6b5e225/
-Content-Type: : application/json
-
-{
-    "currentPassword": "Pariwesh.7",
-    "password": "C.ronaldo7"
-}
 
 ### Update user
-PATCH http://localhost:8000/api/users/623be7cbd0422f37d6b5e225/
+PUT http://localhost:8000/api/users/624fcc6711f52d8cb772e4d0/
 Content-Type: : application/json
 
 {
     "description": "asdasdasdsd",
-    "userId": "623be7cbd0422f37d6b5e225"
 }
