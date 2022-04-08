@@ -41,3 +41,12 @@ Content-Type: application/json
 {
     "userId": "6250275605a33279a9d8fb49"
 }
+
+### unfollow a user
+PUT http://localhost:8000/api/users/62502a547f1d5fd530486e25/unfollow
+Content-Type: application/json
+
+{
+    "userId": "6250275605a33279a9d8fb49"
+}
+
