@@ -1,5 +1,6 @@
-### register
 
+// ========================================= USER ==================================== //
+### register
 POST http://localhost:8000/api/users/register
 Content-Type: application/json
 
@@ -31,7 +32,8 @@ PUT http://localhost:8000/api/users/6250275605a33279a9d8fb49/
 Content-Type: : application/json
 
 {
-    "description": "asdasdasdsd"
+    "_id": "6250275605a33279a9d8fb49",
+    "username": "pt7"
 }
 
 ### follow a user
@@ -48,5 +50,40 @@ Content-Type: application/json
 
 {
     "userId": "6250275605a33279a9d8fb49"
+}
+
+// =============================================== POST =============================================== //
+### create post
+POST http://localhost:8000/api/posts
+Content-Type: application/json
+
+{
+    "userId": "6250275605a33279a9d8fb49",
+    "description": "This is my first post"
+}
+
+### update post
+PUT http://localhost:8000/api/posts/6250c165bedfcb7f28ba37ce
+Content-Type: application/json
+
+{
+    "userId": "6250275605a33279a9d8fb49",
+    "description": "This is a post from Pariwesh"
+}
+
+### delete post
+DELETE http://localhost:8000/api/posts/6250c165bedfcb7f28ba37ce
+Content-Type: application/json
+
+{
+    "userId": "6250275605a33279a9d8fb49"
+}
+
+### like/unlike post
+PUT http://localhost:8000/api/posts/6250c165bedfcb7f28ba37ce/like
+Content-Type: application/json
+
+{
+    "userId": "62502a547f1d5fd530486e25"
 }
 

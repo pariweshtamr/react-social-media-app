@@ -1,13 +1,13 @@
-import express, { Router } from 'express'
+import express from 'express'
 import { comparePassword, hashPassword } from '../helpers/bcrypt.helper.js'
 import {
   createUser,
   deleteUser,
   getUserById,
   getUserByUsername,
-} from '../models/User.model.js'
-
-import { updateUserProfile } from '../models/User.model.js'
+  updateUserProfile,
+} from '../models/User/User.model.js'
+import User from '../models/User/User.schema.js'
 
 const userRouter = express.Router()
 
@@ -72,7 +72,6 @@ userRouter.put('/:id', async (req, res) => {
   const { _id } = req.user
 
   if (_id === req.params.id || !user.isAdmin) {
-    console.log(req.body)
     if (req.body.password) {
       try {
         req.body.password = hashPassword(req.body.password)
@@ -81,7 +80,7 @@ userRouter.put('/:id', async (req, res) => {
       }
     }
     try {
-      const updateUser = await updateUserProfile(_id, { $set: req.body })
+      const updateUser = await User.updateOne(_id, { $set: req.body })
       res.status(200).json('Account has been updated')
     } catch (error) {
       return res.status(500).json(error)

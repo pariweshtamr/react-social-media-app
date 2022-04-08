@@ -19,13 +19,15 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 app.use(helmet())
-app.use(morgan('common'))
+app.use(morgan('tiny'))
 
 // IMPORT ROUTERS
 import userRouter from './routers/userRouter.js'
+import postRouter from './routers/postRouter.js'
 
 // USE ROUTERS
 app.use('/api/users', userRouter)
+app.use('/api/posts', postRouter)
 
 app.get('/', (req, res) => {
   res.send('Welcome to Home Page')
