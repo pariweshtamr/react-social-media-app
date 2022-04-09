@@ -1,5 +1,7 @@
 import express from 'express'
 import { createPost, getPostById } from '../models/Post/Post.model.js'
+import Post from '../models/Post/Post.schema.js'
+import { getUserById } from '../models/User/User.model.js'
 
 const postRouter = express.Router()
 
@@ -64,7 +66,33 @@ postRouter.put('/:id/like', async (req, res) => {
 })
 
 // get a post
+postRouter.get('/:id', async (req, res) => {
+  try {
+    const post = await getPostById(req.params.id)
+    res.status(200).json(post)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+})
 
 // get timeline posts
+postRouter.get('/timeline/all', async (req, res) => {
+  try {
+    const currentUser = await getUserById(req.body.userId)
+    // add all posts of current user to postArray
+
+    const userPosts = await Post.find({ userId: currentUser._id })
+
+    // If we are using any loop we should use Promise all. Otherwise it will not fetch all posts if we use await here
+    const followedPosts = await Promise.all(
+      currentUser.following.map((followingId) => {
+        return Post.find({ userId: followingId })
+      }),
+    )
+    res.json(userPosts.concat(...followedPosts))
+  } catch (error) {
+    res.status(500).json(error)
+  }
+})
 
 export default postRouter

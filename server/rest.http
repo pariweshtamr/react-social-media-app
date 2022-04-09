@@ -58,8 +58,8 @@ POST http://localhost:8000/api/posts
 Content-Type: application/json
 
 {
-    "userId": "6250275605a33279a9d8fb49",
-    "description": "This is my first post"
+    "userId": "62502a547f1d5fd530486e25",
+    "description": "This is a post from Prerana"
 }
 
 ### update post
@@ -80,10 +80,20 @@ Content-Type: application/json
 }
 
 ### like/unlike post
-PUT http://localhost:8000/api/posts/6250c165bedfcb7f28ba37ce/like
+PUT http://localhost:8000/api/posts/6250e64379aafef6692fe0d1/like
 Content-Type: application/json
 
 {
-    "userId": "62502a547f1d5fd530486e25"
+    "userId": "6250275605a33279a9d8fb49"
+}
+### get post
+GET http://localhost:8000/api/posts/6250c165bedfcb7f28ba37ce/
+
+### get timeline posts
+GET http://localhost:8000/api/posts/timeline/all
+Content-Type: application/json
+
+{
+    "userId": "6250275605a33279a9d8fb49"
 }
 
