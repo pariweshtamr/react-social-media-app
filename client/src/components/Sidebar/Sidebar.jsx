@@ -7,6 +7,8 @@ import {
   Bookmark,
   Event,
 } from '@mui/icons-material'
+import { Users } from '../../data'
+import CloseFriends from '../CloseFriends/CloseFriends'
 
 const Sidebar = () => {
   return (
@@ -42,54 +44,9 @@ const Sidebar = () => {
         <hr className="sidebarHr" />
 
         <ul className="sidebarFriendList">
-          <li className="sidebarFriend">
-            <img
-              className="sidebarFriendImg"
-              src="/assets/person/2.jpeg"
-              alt=""
-            />
-            <span className="sidebarFriendName">Divyesh Shrestha</span>
-          </li>
-          <li className="sidebarFriend">
-            <img
-              className="sidebarFriendImg"
-              src="/assets/person/2.jpeg"
-              alt=""
-            />
-            <span className="sidebarFriendName">Divyesh Shrestha</span>
-          </li>
-          <li className="sidebarFriend">
-            <img
-              className="sidebarFriendImg"
-              src="/assets/person/2.jpeg"
-              alt=""
-            />
-            <span className="sidebarFriendName">Divyesh Shrestha</span>
-          </li>
-          <li className="sidebarFriend">
-            <img
-              className="sidebarFriendImg"
-              src="/assets/person/2.jpeg"
-              alt=""
-            />
-            <span className="sidebarFriendName">Divyesh Shrestha</span>
-          </li>
-          <li className="sidebarFriend">
-            <img
-              className="sidebarFriendImg"
-              src="/assets/person/2.jpeg"
-              alt=""
-            />
-            <span className="sidebarFriendName">Divyesh Shrestha</span>
-          </li>
-          <li className="sidebarFriend">
-            <img
-              className="sidebarFriendImg"
-              src="/assets/person/2.jpeg"
-              alt=""
-            />
-            <span className="sidebarFriendName">Divyesh Shrestha</span>
-          </li>
+          {Users.map((user) => (
+            <CloseFriends key={user.id} user={user} />
+          ))}
         </ul>
       </div>
     </div>
