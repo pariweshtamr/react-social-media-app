@@ -32,8 +32,9 @@ PUT http://localhost:8000/api/users/6250275605a33279a9d8fb49/
 Content-Type: : application/json
 
 {
-    "_id": "6250275605a33279a9d8fb49",
-    "username": "pt7"
+    "userId": "6250275605a33279a9d8fb49",
+    "isAdmi": "false",
+    "description": "Hello"
 }
 
 ### follow a user

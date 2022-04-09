@@ -66,12 +66,7 @@ userRouter.post('/login', async (req, res) => {
 
 // update user
 userRouter.put('/:id', async (req, res) => {
-  const user = await getUserById(req.params.id)
-
-  req.user = user
-  const { _id } = req.user
-
-  if (_id === req.params.id || !user.isAdmin) {
+  if (req.body.userId === req.params.id || req.body.isAdmin) {
     if (req.body.password) {
       try {
         req.body.password = hashPassword(req.body.password)
@@ -80,7 +75,9 @@ userRouter.put('/:id', async (req, res) => {
       }
     }
     try {
-      const updateUser = await User.updateOne(_id, { $set: req.body })
+      const user = await User.findByIdAndUpdate(req.params.id, {
+        $set: req.body,
+      })
       res.status(200).json('Account has been updated')
     } catch (error) {
       return res.status(500).json(error)
