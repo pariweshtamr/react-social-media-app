@@ -5,10 +5,9 @@ POST http://localhost:8000/api/users/register
 Content-Type: application/json
 
 {
-    "firstName": "Prerana",
-    "lastName": "Tamrakar",
-    "username": "prerana04",
-    "email": "user2@example.com",
+
+    "username": "pariwesh7",
+    "email": "user@example.com",
     "password": "C.ronaldo7"
 }
 
@@ -22,17 +21,17 @@ Content-Type: application/json
 }
 
 ### delete user
-DELETE http://localhost:8000/api/users/6250275605a33279a9d8fb49
+DELETE http://localhost:8000/api/users/62522131c954215d69533606
 
 ### get user
-GET http://localhost:8000/api/users/6250275605a33279a9d8fb49
+GET http://localhost:8000/api/users/62522131c954215d69533606
 
 ### Update user
-PUT http://localhost:8000/api/users/6250275605a33279a9d8fb49/
+PUT http://localhost:8000/api/users/62522131c954215d69533606/
 Content-Type: : application/json
 
 {
-    "userId": "6250275605a33279a9d8fb49",
+    "userId": "62522131c954215d69533606",
     "isAdmi": "false",
     "description": "Hello"
 }
@@ -59,12 +58,13 @@ POST http://localhost:8000/api/posts
 Content-Type: application/json
 
 {
-    "userId": "62502a547f1d5fd530486e25",
-    "description": "This is a post from Prerana"
+    "userId": "62522131c954215d69533606",
+    "description": "This is second post from Pariwesh",
+    "img": "post/1.jpeg"
 }
 
 ### update post
-PUT http://localhost:8000/api/posts/6250c165bedfcb7f28ba37ce
+PUT http://localhost:8000/api/posts/62522131c954215d69533606
 Content-Type: application/json
 
 {
@@ -73,7 +73,7 @@ Content-Type: application/json
 }
 
 ### delete post
-DELETE http://localhost:8000/api/posts/6250c165bedfcb7f28ba37ce
+DELETE http://localhost:8000/api/posts/62522131c954215d69533606
 Content-Type: application/json
 
 {
@@ -95,6 +95,6 @@ GET http://localhost:8000/api/posts/timeline/all
 Content-Type: application/json
 
 {
-    "userId": "6250275605a33279a9d8fb49"
+    "userId": "62522131c954215d69533606"
 }
 

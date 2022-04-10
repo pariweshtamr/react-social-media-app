@@ -2,6 +2,7 @@ import express from 'express'
 import { createPost, getPostById } from '../models/Post/Post.model.js'
 import Post from '../models/Post/Post.schema.js'
 import { getUserById } from '../models/User/User.model.js'
+import User from '../models/User/User.schema.js'
 
 const postRouter = express.Router()
 
@@ -76,9 +77,9 @@ postRouter.get('/:id', async (req, res) => {
 })
 
 // get timeline posts
-postRouter.get('/timeline/all', async (req, res) => {
+postRouter.get('/timeline/:userId', async (req, res) => {
   try {
-    const currentUser = await getUserById(req.body.userId)
+    const currentUser = await getUserById(req.params.userId)
     // add all posts of current user to postArray
 
     const userPosts = await Post.find({ userId: currentUser._id })
@@ -89,7 +90,18 @@ postRouter.get('/timeline/all', async (req, res) => {
         return Post.find({ userId: followingId })
       }),
     )
-    res.json(userPosts.concat(...followedPosts))
+    res.status(200).json(userPosts.concat(...followedPosts))
+  } catch (error) {
+    res.status(500).json(error)
+  }
+})
+
+// get user's all posts
+postRouter.get('/profile/:username', async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username })
+    const post = await Post.find({ userId: user._id })
+    res.status(200).json(post)
   } catch (error) {
     res.status(500).json(error)
   }

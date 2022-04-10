@@ -29,8 +29,8 @@ import postRouter from './routers/postRouter.js'
 app.use('/api/users', userRouter)
 app.use('/api/posts', postRouter)
 
-app.get('/', (req, res) => {
-  res.send('Welcome to Home Page')
+app.use('/', (req, res) => {
+  res.json({ message: 'Server is ready' })
 })
 
 app.listen(PORT, (error) => {

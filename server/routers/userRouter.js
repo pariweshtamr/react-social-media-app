@@ -107,9 +107,13 @@ userRouter.delete('/:id', async (req, res) => {
 })
 
 // get a user
-userRouter.get('/:id', async (req, res) => {
+userRouter.get('/', async (req, res) => {
+  const userId = req.query.userId
+  const username = req.query.username
   try {
-    const user = await getUserById(req.params.id)
+    const user = userId
+      ? await getUserById(userId)
+      : await getUserByUsername(username)
     const { password, isAdmin, updatedAt, ...other } = user._doc //.doc carries the whole object (user)
     res.status(200).json(other)
   } catch (error) {
