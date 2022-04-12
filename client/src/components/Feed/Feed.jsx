@@ -1,25 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Post from '../Post/Post'
 import Share from '../Share/Share'
-import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
 import './feed.css'
+import { fetchPosts } from '../../redux/Posts/PostAction'
 
-const Feed = ({ username }) => {
-  const [posts, setPosts] = useState([])
+const Feed = () => {
+  const dispatch = useDispatch()
+  const { isLoading, posts, error } = useSelector((state) => state.posts || [])
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const res = username
-          ? await axios.get('/posts/profile/' + username)
-          : await axios.get('/posts/timeline/62522131c954215d69533606')
-        setPosts(res.data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchPosts()
-  }, [username])
+    dispatch(fetchPosts())
+  }, [dispatch])
   return (
     <div className="feed">
       <div className="feedWrapper">

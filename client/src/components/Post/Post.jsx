@@ -1,27 +1,23 @@
 import './post.css'
 import { MoreVert } from '@mui/icons-material'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
 import { format } from 'timeago.js'
 import { Link } from 'react-router-dom'
+import { fetchUser } from '../../redux/User/UserAction'
+import axios from 'axios'
 
 const Post = ({ post }) => {
   const [like, setLike] = useState(post.likes.length)
   const [isLiked, setIsLiked] = useState(false)
-  const [user, setUser] = useState({})
+  const dispatch = useDispatch()
+  const { user, isLoading, error } = useSelector((state) => state.user)
+  const { posts } = useSelector((state) => state.posts)
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await axios.get(`/users?userId=${post.userId}`)
-        setUser(res.data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchUser()
-  }, [post.userId])
+    dispatch(fetchUser(post.userId))
+  }, [dispatch, post.userId])
 
   const likeHandler = () => {
     setLike(isLiked ? like - 1 : like + 1)

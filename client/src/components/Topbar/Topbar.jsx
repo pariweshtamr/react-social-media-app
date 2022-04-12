@@ -1,9 +1,9 @@
-import React from 'react'
 import './topbar.css'
 import { Search, Person, Chat, Notifications } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 
 const Topbar = () => {
+  const PF = process.env.REACT_APP_PUBLIC_FOLDER
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">
@@ -36,7 +36,7 @@ const Topbar = () => {
             <span className="topbarIconBadge">1</span>
           </div>
         </div>
-        <img src="/assets/person/1.jpeg" alt="" className="topbarImg" />
+        <img src={PF + 'person/noAvatar.png'} alt="" className="topbarImg" />
       </div>
     </div>
   )

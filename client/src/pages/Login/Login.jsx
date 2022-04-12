@@ -1,6 +1,21 @@
 import './login.css'
+import { useRef } from 'react'
+import { CircularProgress } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
+  const email = useRef()
+  const password = useRef()
+  const navigate = useNavigate()
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault()
+  }
+
+  const handleOnRegister = () => {
+    navigate('/register')
+  }
+
   return (
     <div className="login">
       <div className="loginWrapper">
@@ -12,15 +27,29 @@ const Login = () => {
         </div>
 
         <div className="loginRight">
-          <div className="loginBox">
-            <input placeholder="Email" className="loginInput" />
-            <input placeholder="Password" className="loginInput" />
-            <button className="loginButton">Log In</button>
+          <form className="loginBox" onSubmit={handleOnSubmit}>
+            <input
+              placeholder="Email"
+              type="email"
+              required
+              className="loginInput"
+              ref={email}
+            />
+            <input
+              placeholder="Password"
+              type="password"
+              required
+              minLength="7"
+              className="loginInput"
+              ref={password}
+            />
+            <button type="submit" className="loginButton"></button>
             <span className="loginForgot">Forgot Password</span>
-            <button className="loginRegisterButton">
-              Create a new account
-            </button>
-          </div>
+            <button
+              className="loginRegisterButton"
+              onClick={handleOnRegister}
+            ></button>
+          </form>
         </div>
       </div>
     </div>
