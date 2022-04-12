@@ -4,19 +4,17 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { format } from 'timeago.js'
 import { Link } from 'react-router-dom'
-import { fetchUser } from '../../redux/User/UserAction'
-import axios from 'axios'
+import { fetchUserById } from '../../redux/User/UserAction'
 
 const Post = ({ post }) => {
   const [like, setLike] = useState(post.likes.length)
   const [isLiked, setIsLiked] = useState(false)
   const dispatch = useDispatch()
   const { user, isLoading, error } = useSelector((state) => state.user)
-  const { posts } = useSelector((state) => state.posts)
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
 
   useEffect(() => {
-    dispatch(fetchUser(post.userId))
+    dispatch(fetchUserById(post.userId))
   }, [dispatch, post.userId])
 
   const likeHandler = () => {

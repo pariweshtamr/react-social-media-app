@@ -6,7 +6,7 @@ Content-Type: application/json
 
 {
 
-    "username": "pariwesh7",
+    "username": "pariwesh",
     "email": "user@example.com",
     "password": "C.ronaldo7"
 }
@@ -16,7 +16,7 @@ POST http://localhost:8000/api/users/login
 Content-Type: application/json
 
 {
-    "username": "pariwesh7",
+    "email": "user@example.com",
     "password": "C.ronaldo7"
 }
 
@@ -24,7 +24,7 @@ Content-Type: application/json
 DELETE http://localhost:8000/api/users/62522131c954215d69533606
 
 ### get user
-GET http://localhost:8000/api/users/62522131c954215d69533606
+GET http://localhost:8000/api/users/62526c796664540e248e39a7
 
 ### Update user
 PUT http://localhost:8000/api/users/62522131c954215d69533606/
@@ -58,8 +58,8 @@ POST http://localhost:8000/api/posts
 Content-Type: application/json
 
 {
-    "userId": "62522131c954215d69533606",
-    "description": "This is second post from Pariwesh",
+    "userId": "62526c796664540e248e39a7",
+    "description": "This is first post from Pariwesh",
     "img": "post/1.jpeg"
 }
 
@@ -91,10 +91,10 @@ Content-Type: application/json
 GET http://localhost:8000/api/posts/6250c165bedfcb7f28ba37ce/
 
 ### get timeline posts
-GET http://localhost:8000/api/posts/timeline/all
+GET http://localhost:8000/api/posts/timeline/62526c796664540e248e39a7
 Content-Type: application/json
 
 {
-    "userId": "62522131c954215d69533606"
+    "userId": "62526c796664540e248e39a7"
 }
 

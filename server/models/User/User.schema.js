@@ -3,16 +3,6 @@ const Schema = mongoose.Schema
 
 const UserSchema = new Schema(
   {
-    firstName: {
-      type: String,
-      required: true,
-      max: 30,
-    },
-    lastName: {
-      type: String,
-      required: true,
-      max: 30,
-    },
     username: {
       type: String,
       required: true,

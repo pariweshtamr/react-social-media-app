@@ -3,27 +3,23 @@ import Feed from '../../components/Feed/Feed'
 import Rightbar from '../../components/Rightbar/Rightbar'
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Topbar from '../../components/Topbar/Topbar'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
-import axios from 'axios'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchUserByUsername } from '../../redux/User/UserAction'
+import { useParams } from 'react-router-dom'
 
 const Profile = () => {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
-  const [user, setUser] = useState({})
+  const dispatch = useDispatch()
   const { username } = useParams()
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await axios.get(`/users?username=${username}`)
-        setUser(res.data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchUser()
-  }, [username])
+  const { user, isLoading, error } = useSelector((state) => state.user)
 
+  useEffect(() => {
+    dispatch(fetchUserByUsername(username))
+  }, [dispatch, username])
+
+  console.log(user)
   return (
     <>
       <Topbar />
@@ -49,7 +45,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="profileRightBottom">
-            <Feed username={username} user={user} />
+            <Feed username={username} />
             <Rightbar user={user} />
           </div>
         </div>

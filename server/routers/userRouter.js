@@ -3,9 +3,9 @@ import { comparePassword, hashPassword } from '../helpers/bcrypt.helper.js'
 import {
   createUser,
   deleteUser,
+  getUserByEmail,
   getUserById,
   getUserByUsername,
-  updateUserProfile,
 } from '../models/User/User.model.js'
 import User from '../models/User/User.schema.js'
 
@@ -31,9 +31,9 @@ userRouter.post('/register', async (req, res) => {
 // LOGIN
 userRouter.post('/login', async (req, res) => {
   try {
-    const { username, password } = req.body
+    const { email, password } = req.body
 
-    const user = await getUserByUsername(username)
+    const user = await getUserByEmail(email)
 
     if (user?._id) {
       // Check if password is valid or not
