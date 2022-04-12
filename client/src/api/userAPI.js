@@ -17,3 +17,16 @@ export const getUserByUsername = async (username) => {
     return error?.message?.data || { status: 'error', message: error.message }
   }
 }
+
+export const loginUser = async (userCredentials) => {
+  try {
+    const { data } = await axios.post('/users/login', userCredentials)
+    console.log(data)
+    return data
+  } catch (error) {
+    return {
+      status: 'error',
+      message: 'Invalid login details',
+    }
+  }
+}

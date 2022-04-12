@@ -2,14 +2,29 @@ import './login.css'
 import { useRef } from 'react'
 import { CircularProgress } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { userLogin } from '../../redux/User/UserAction'
 
 const Login = () => {
   const email = useRef()
   const password = useRef()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { user, isLoading, error } = useSelector((state) => state.user)
 
   const handleOnSubmit = (e) => {
     e.preventDefault()
+
+    dispatch(
+      userLogin({
+        email: email.current.value,
+        password: password.current.value,
+      }),
+    )
+
+    if (user?._id) {
+      navigate('/')
+    }
   }
 
   const handleOnRegister = () => {
@@ -27,29 +42,37 @@ const Login = () => {
         </div>
 
         <div className="loginRight">
-          <form className="loginBox" onSubmit={handleOnSubmit}>
-            <input
-              placeholder="Email"
-              type="email"
-              required
-              className="loginInput"
-              ref={email}
-            />
-            <input
-              placeholder="Password"
-              type="password"
-              required
-              minLength="7"
-              className="loginInput"
-              ref={password}
-            />
-            <button type="submit" className="loginButton"></button>
-            <span className="loginForgot">Forgot Password</span>
-            <button
-              className="loginRegisterButton"
-              onClick={handleOnRegister}
-            ></button>
-          </form>
+          <div className="loginBox">
+            <form onSubmit={handleOnSubmit}>
+              <input
+                placeholder="Email"
+                type="email"
+                required
+                className="loginInput"
+                ref={email}
+              />
+              <input
+                placeholder="Password"
+                type="password"
+                required
+                minLength="7"
+                className="loginInput"
+                ref={password}
+              />
+              <button type="submit" className="loginButton">
+                {isLoading ? (
+                  <CircularProgress color="inherit" size="20px" />
+                ) : (
+                  'Log In'
+                )}
+              </button>
+            </form>
+            <span className="loginForgot">Forgot Password?</span>
+
+            <button className="loginRegisterButton" onClick={handleOnRegister}>
+              Create new account
+            </button>
+          </div>
         </div>
       </div>
     </div>

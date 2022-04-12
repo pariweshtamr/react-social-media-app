@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchUser } from './redux/User/UserAction'
 
 function App() {
-  const { user } = useSelector((state) => state.user)
+  const { isLoggedIn } = useSelector((state) => state.user)
   const dispatch = useDispatch()
 
   // useEffect(() => {
@@ -26,13 +26,17 @@ function App() {
         <Route path="/profile/:username" element={<Profile />}></Route>
         <Route
           path="/login"
-          element={user ? <Navigate to="/" /> : <Login />}
+          element={isLoggedIn ? <Navigate to="/" /> : <Login />}
         ></Route>
         <Route
           path="/register"
-          element={user ? <Navigate to="/" /> : <Register />}
+          element={isLoggedIn ? <Navigate to="/" /> : <Register />}
         ></Route>
-        <Route path="/" exact element={user ? <Home /> : <Login />}></Route>
+        <Route
+          path="/"
+          exact
+          element={isLoggedIn ? <Home /> : <Login />}
+        ></Route>
       </Routes>
     </Router>
   )
