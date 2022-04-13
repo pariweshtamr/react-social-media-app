@@ -21,12 +21,24 @@ export const getUserByUsername = async (username) => {
 export const loginUser = async (userCredentials) => {
   try {
     const { data } = await axios.post('/users/login', userCredentials)
-    console.log(data)
     return data
   } catch (error) {
     return {
       status: 'error',
       message: 'Invalid login details',
+    }
+  }
+}
+
+export const registerUser = async (newUser) => {
+  try {
+    const { data } = await axios.post('/users/register', newUser)
+    return data
+  } catch (error) {
+    console.log(error)
+    return {
+      status: 'error',
+      message: error.message,
     }
   }
 }

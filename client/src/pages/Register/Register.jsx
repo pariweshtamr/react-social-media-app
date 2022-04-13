@@ -1,14 +1,20 @@
-import axios from 'axios'
 import { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { userRegister } from '../../redux/User/UserAction'
+import { useDispatch, useSelector } from 'react-redux'
 import './register.css'
+import { CircularProgress } from '@mui/material'
+import MessageBox from '../../components/MessageBox/MessageBox'
 
 const Register = () => {
   const email = useRef()
   const username = useRef()
   const password = useRef()
   const confirmPassword = useRef()
+  const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  const { isLoading, userRegisterResponse } = useSelector((state) => state.user)
 
   const handleOnSubmit = async (e) => {
     e.preventDefault()
@@ -16,15 +22,18 @@ const Register = () => {
     if (confirmPassword.current.value !== password.current.value) {
       confirmPassword.current.setCustomValidity('The passwords do not match!')
     } else {
-      const user = {
+      const newUser = {
         username: username.current.value,
         email: email.current.value,
         password: password.current.value,
       }
 
       try {
-        await axios.post('/users/register', user)
-        navigate('/login')
+        dispatch(userRegister(newUser))
+
+        setTimeout(() => {
+          navigate('/login')
+        }, 5000)
       } catch (error) {
         console.log(error)
       }
@@ -42,6 +51,16 @@ const Register = () => {
         </div>
 
         <div className="registerRight">
+          {isLoading && <CircularProgress />}
+          {userRegisterResponse?.message && (
+            <MessageBox
+              variant={
+                userRegisterResponse.status === 'success' ? 'success' : 'danger'
+              }
+            >
+              {userRegisterResponse.message}
+            </MessageBox>
+          )}
           <form className="registerBox" onSubmit={handleOnSubmit}>
             <input
               placeholder="Username"

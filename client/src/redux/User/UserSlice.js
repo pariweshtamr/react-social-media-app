@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   user: {},
+  userRegisterResponse: {},
   isLoggedIn: false,
   isLoading: false,
   error: false,
@@ -13,6 +14,11 @@ const userSlice = createSlice({
   reducers: {
     requestPending: (state) => {
       state.isLoading = true
+    },
+
+    registerSuccess: (state, action) => {
+      state.isLoading = false
+      state.userRegisterResponse = action.payload || {}
     },
 
     loginSuccess: (state, action) => {
@@ -36,6 +42,12 @@ const userSlice = createSlice({
 
 const { reducer, actions } = userSlice
 
-export const { requestPending, loginSuccess, loginFail, requestFail } = actions
+export const {
+  requestPending,
+  registerSuccess,
+  loginSuccess,
+  loginFail,
+  requestFail,
+} = actions
 
 export default reducer
