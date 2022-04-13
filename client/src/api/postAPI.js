@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-export const getTimelinePosts = async () => {
+export const getTimelinePosts = async (id) => {
   try {
-    const { data } = await axios.get('/posts/timeline/62526c796664540e248e39a7')
+    const { data } = await axios.get(`/posts/timeline/${id}`)
     return data
   } catch (error) {
     return error?.message?.data || { status: 'error', message: error.message }

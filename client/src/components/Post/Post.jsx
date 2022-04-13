@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { format } from 'timeago.js'
 import { Link } from 'react-router-dom'
 import { fetchUserById } from '../../redux/User/UserAction'
+import axios from 'axios'
 
 const Post = ({ post }) => {
   const [like, setLike] = useState(post.likes.length)
@@ -13,11 +14,21 @@ const Post = ({ post }) => {
   const { user, isLoading, error } = useSelector((state) => state.user)
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
 
+  // check if the post has already been liked by the user
+  useEffect(() => {
+    setIsLiked(post.likes.includes(user._id))
+  }, [user._id, post.likes])
+
+  // fetch user
   useEffect(() => {
     dispatch(fetchUserById(post.userId))
   }, [dispatch, post.userId])
 
   const likeHandler = () => {
+    try {
+      axios.put(`/posts/${post._id}/like`, { userId: user._id })
+    } catch (error) {}
+
     setLike(isLiked ? like - 1 : like + 1)
     setIsLiked(!isLiked)
   }
@@ -30,7 +41,11 @@ const Post = ({ post }) => {
             <Link to={`profile/${user.username}`}>
               <img
                 className="postProfileImg"
-                src={user.profilePicture || PF + 'person/noAvatar.png'}
+                src={
+                  user.profilePicture
+                    ? PF + user.profilePicture
+                    : PF + 'person/noAvatar.png'
+                }
                 alt=""
               />
             </Link>

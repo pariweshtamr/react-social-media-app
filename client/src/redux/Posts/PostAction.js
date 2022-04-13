@@ -1,9 +1,9 @@
 import { getAllUserPosts, getTimelinePosts } from '../../api/postAPI'
 import { getPostsFail, getPostsSuccess, requestPending } from './PostSlice'
 
-export const fetchTimelinePosts = () => async (dispatch) => {
+export const fetchTimelinePosts = (id) => async (dispatch) => {
   dispatch(requestPending())
-  const data = await getTimelinePosts()
+  const data = await getTimelinePosts(id)
   try {
     dispatch(getPostsSuccess(data))
   } catch (error) {

@@ -11,14 +11,15 @@ import {
 const Feed = ({ username }) => {
   const dispatch = useDispatch()
   const { isLoading, posts, error } = useSelector((state) => state.posts || [])
+  const { user } = useSelector((state) => state.user)
 
   useEffect(() => {
     if (username) {
       dispatch(fetchAllUserPosts(username))
     } else {
-      dispatch(fetchTimelinePosts())
+      dispatch(fetchTimelinePosts(user._id))
     }
-  }, [dispatch, username])
+  }, [dispatch, username, user._id])
   return (
     <div className="feed">
       <div className="feedWrapper">
