@@ -3,6 +3,7 @@ import { createPost, getPostById } from '../models/Post/Post.model.js'
 import Post from '../models/Post/Post.schema.js'
 import { getUserById } from '../models/User/User.model.js'
 import User from '../models/User/User.schema.js'
+import multer from 'multer'
 
 const postRouter = express.Router()
 
@@ -27,6 +28,62 @@ postRouter.put('/:id', async (req, res) => {
     } else {
       res.status(403).json('You are only able to update your posts')
     }
+  } catch (error) {
+    res.status(500).json(error)
+  }
+})
+
+// CONFIGURE MULTER FOR VALIDATION AND UPLOAD DESTINATION
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    let error = null
+    cb(error, 'public/images')
+  },
+  filename: (req, file, cb) => {
+    cb(null, req.body.name)
+  },
+})
+
+const upload = multer({ storage })
+
+postRouter.post('/upload', upload.single('file'), (req, res) => {
+  try {
+    return res.status(200).json('File has been uploaded successfully.')
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+postRouter.post('/', upload.array('images', 10), async (req, res) => {
+  try {
+    // FILE ZONE
+    console.log(req.body)
+
+    const files = req.files
+    console.log(files)
+    const images = []
+
+    const basePath = `${req.protocol}://${req.get('host')}/images/posts`
+
+    files.map((file) => {
+      const imgFullPath = basePath + file.filename
+      console.log(imgFullPath)
+      images.push(imgFullPath)
+    })
+
+    const slug = slugify(req.body.title, { lower: true })
+    const post = await createPost({ ...req.body, slug, images })
+    // res.status(200).json(post)
+
+    post?._id
+      ? res.json({
+          status: 'success',
+          message: 'New post has been successfully posted',
+        })
+      : res.json({
+          status: 'error',
+          message: 'Unable to post. Please try again later.',
+        })
   } catch (error) {
     res.status(500).json(error)
   }

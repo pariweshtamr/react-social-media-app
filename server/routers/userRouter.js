@@ -21,10 +21,27 @@ userRouter.post('/register', async (req, res) => {
       req.body.password = hashPass
 
       const user = await createUser(req.body)
-      res.status(200).json(user)
+      // res.status(200).json(user)
+
+      return res.json({
+        status: 'success',
+        message:
+          'New user has been successfully created. You will be navigated to the login page shortly...',
+      })
     }
+    res.json({
+      status: 'error',
+      message: 'Unable to create new user. Please try again later',
+    })
   } catch (error) {
     console.log(error.message)
+    if (error.message.includes('E11000 duplicate key error collection')) {
+      msg = 'Error, an account already exists for this email address'
+    }
+    res.json({
+      status: 'error',
+      message: 'Unable to create new user',
+    })
   }
 })
 
@@ -130,7 +147,7 @@ userRouter.put('/:id/follow', async (req, res) => {
 
       if (!user.followers.includes(req.body.userId)) {
         await user.updateOne({ $push: { followers: req.body.userId } })
-        await currentUser.updateOne({ $push: { following: req.body.userId } })
+        await currentUser.updateOne({ $push: { following: req.params.id } })
         res.status(200).json('You are now following this user')
       } else {
         res.status(403).json('You are already following this user')

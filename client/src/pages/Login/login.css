@@ -35,7 +35,7 @@
   flex-direction: column;
   justify-content: space-between;
 }
-form {
+.form {
   display: flex;
   flex-direction: column;
   gap: 15px;

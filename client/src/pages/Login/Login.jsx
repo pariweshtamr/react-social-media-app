@@ -43,7 +43,7 @@ const Login = () => {
 
         <div className="loginRight">
           <div className="loginBox">
-            <form onSubmit={handleOnSubmit}>
+            <form className="form" onSubmit={handleOnSubmit}>
               <input
                 placeholder="Email"
                 type="email"

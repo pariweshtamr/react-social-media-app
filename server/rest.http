@@ -37,19 +37,19 @@ Content-Type: : application/json
 }
 
 ### follow a user
-PUT http://localhost:8000/api/users/62502a547f1d5fd530486e25/follow
+PUT http://localhost:8000/api/users/62526c796664540e248e39a7/follow
 Content-Type: application/json
 
 {
-    "userId": "6250275605a33279a9d8fb49"
+    "userId": "62566f6372a28f34312b89a0"
 }
 
 ### unfollow a user
-PUT http://localhost:8000/api/users/62502a547f1d5fd530486e25/unfollow
+PUT http://localhost:8000/api/users/62526c796664540e248e39a7/unfollow
 Content-Type: application/json
 
 {
-    "userId": "6250275605a33279a9d8fb49"
+    "userId": "62566f6372a28f34312b89a0"
 }
 
 // =============================================== POST =============================================== //
@@ -81,20 +81,21 @@ Content-Type: application/json
 }
 
 ### like/unlike post
-PUT http://localhost:8000/api/posts/6250e64379aafef6692fe0d1/like
+PUT http://localhost:8000/api/posts/62553d8d0d18fef1ec55649b/like
 Content-Type: application/json
 
 {
-    "userId": "6250275605a33279a9d8fb49"
+    "userId": "62566f6372a28f34312b89a0"
 }
 ### get post
 GET http://localhost:8000/api/posts/6250c165bedfcb7f28ba37ce/
 
 ### get timeline posts
-GET http://localhost:8000/api/posts/timeline/62526c796664540e248e39a7
+GET http://localhost:8000/api/posts/timeline/62566f6372a28f34312b89a0
 Content-Type: application/json
 
 {
-    "userId": "62526c796664540e248e39a7"
+    "userId": "62566f6372a28f34312b89a0"
 }
+
 

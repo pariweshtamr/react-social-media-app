@@ -7,6 +7,12 @@ const app = express()
 import cors from 'cors'
 import helmet from 'helmet'
 import morgan from 'morgan'
+import path from 'path'
+
+//SERVER STATIC CONTENT
+const __dirname = path.resolve()
+console.log(__dirname)
+app.use('/images', express.static(path.join(__dirname, 'public/images')))
 
 const PORT = process.env.PORT || 8000
 
