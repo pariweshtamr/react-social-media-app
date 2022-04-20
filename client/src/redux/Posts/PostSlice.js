@@ -4,6 +4,7 @@ const initialState = {
   posts: [],
   isLoading: false,
   error: false,
+  postResponse: {},
 }
 
 const postSlice = createSlice({
@@ -23,11 +24,21 @@ const postSlice = createSlice({
       state.isLoading = false
       state.error = action.payload
     },
+
+    createPostSuccess: (state, action) => {
+      state.isLoading = false
+      state.postResponse = action.payload
+    },
   },
 })
 
 const { reducer, actions } = postSlice
 
-export const { requestPending, getPostsSuccess, getPostsFail } = actions
+export const {
+  requestPending,
+  getPostsSuccess,
+  getPostsFail,
+  createPostSuccess,
+} = actions
 
 export default reducer

@@ -19,7 +19,6 @@ const Profile = () => {
     dispatch(fetchUserByUsername(username))
   }, [dispatch, username])
 
-  console.log(user)
   return (
     <>
       <Topbar />

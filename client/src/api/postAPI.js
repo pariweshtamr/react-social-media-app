@@ -17,3 +17,23 @@ export const getAllUserPosts = async (username) => {
     return error?.message?.data || { status: 'error', message: error.message }
   }
 }
+
+export const createPost = async (newPost) => {
+  try {
+    const { data } = await axios.post('/posts', newPost)
+    return data
+  } catch (error) {
+    console.log(error)
+    return error?.response?.data
+  }
+}
+
+export const createPostWithImg = async (newPost) => {
+  try {
+    const { data } = await axios.post('/posts/upload', newPost)
+    return data
+  } catch (error) {
+    console.log(error)
+    return error?.response?.data
+  }
+}

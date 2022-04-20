@@ -4,6 +4,7 @@ import Post from '../models/Post/Post.schema.js'
 import { getUserById } from '../models/User/User.model.js'
 import User from '../models/User/User.schema.js'
 import multer from 'multer'
+import slugify from 'slugify'
 
 const postRouter = express.Router()
 
@@ -35,45 +36,39 @@ postRouter.put('/:id', async (req, res) => {
 
 // CONFIGURE MULTER FOR VALIDATION AND UPLOAD DESTINATION
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: function (req, file, cb) {
     let error = null
     cb(error, 'public/images')
   },
-  filename: (req, file, cb) => {
-    cb(null, req.body.name)
+  filename: function (req, file, cb) {
+    const fileName = file.originalname
+    const fullFileName = Date.now() + '-' + fileName
+
+    cb(null, fullFileName)
   },
 })
 
 const upload = multer({ storage })
 
-postRouter.post('/upload', upload.single('file'), (req, res) => {
+postRouter.post('/upload', upload.array('images', 12), async (req, res) => {
   try {
-    return res.status(200).json('File has been uploaded successfully.')
-  } catch (error) {
-    console.log(error)
-  }
-})
-
-postRouter.post('/', upload.array('images', 10), async (req, res) => {
-  try {
+    console.log(req.body, 'req.body')
     // FILE ZONE
-    console.log(req.body)
-
     const files = req.files
-    console.log(files)
+    console.log(files, 'line 57')
     const images = []
 
-    const basePath = `${req.protocol}://${req.get('host')}/images/posts`
-
+    const basePath = `${req.protocol}://${req.get('host')}/images/`
     files.map((file) => {
-      const imgFullPath = basePath + file.filename
-      console.log(imgFullPath)
+      const imgFullPath = file.filename
       images.push(imgFullPath)
     })
 
-    const slug = slugify(req.body.title, { lower: true })
-    const post = await createPost({ ...req.body, slug, images })
-    // res.status(200).json(post)
+    console.log(images, 'line 66')
+
+    const post = await createPost({ ...req.body, images })
+
+    console.log(post, 'post router line 70')
 
     post?._id
       ? res.json({

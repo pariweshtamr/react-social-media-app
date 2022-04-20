@@ -1,26 +1,24 @@
 import './share.css'
-import {
-  PermMedia,
-  Label,
-  Room,
-  EmojiEmotions,
-  ImagesearchRollerTwoTone,
-} from '@mui/icons-material'
+import { PermMedia, Label, Room, EmojiEmotions } from '@mui/icons-material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRef, useState } from 'react'
-import axios from 'axios'
+import {
+  createPostAction,
+  createPostWithImgAction,
+} from '../../redux/Posts/PostAction'
 
 const Share = () => {
   const { user } = useSelector((state) => state.user)
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
   const description = useRef()
-  const [file, setFile] = useState(null)
+  const dispatch = useDispatch()
+  const [images, setImages] = useState([])
 
-  // const handleOnImageSelect = (e) => {
-  //   const { files } = e.target
+  const handleOnImageSelect = (e) => {
+    const { files } = e.target
 
-  //   setImages(files)
-  // }
+    setImages(files)
+  }
 
   const handleOnSubmit = async (e) => {
     e.preventDefault()
@@ -30,28 +28,32 @@ const Share = () => {
       description: description.current.value,
     }
 
-    if (file) {
-      const data = new FormData()
-      const fileName = Date.now() + file.name
-      data.append('file', file)
-      data.append('name', fileName)
-      newPost.img = fileName
+    if (images) {
+      const userId = user._id
+      const desc = description.current.value
 
-      console.log(data, file, newPost)
+      const data = new FormData()
+
+      data.append('userId', userId)
+      data.append('description', desc)
+      images.length && [...images].map((img) => data.append('images', img))
+
+      // data.append('images', file)
 
       try {
-        await axios.post('/posts/upload', data)
+        dispatch(createPostWithImgAction(data))
       } catch (error) {
         console.log(error)
       }
     }
-
-    try {
-      await axios.post('/posts', newPost)
-      // window.location.reload()
-    } catch (error) {
-      console.log(error)
-    }
+    // } else {
+    //   try {
+    //     dispatch(createPostAction(newPost))
+    //     // window.location.reload()
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // }
   }
 
   return (
@@ -85,7 +87,7 @@ const Share = () => {
                 id="file"
                 multiple
                 accept="image/*"
-                onChange={(e) => setFile(e.target.files[0])}
+                onChange={handleOnImageSelect}
               />
             </label>
             <div className="shareOption">
