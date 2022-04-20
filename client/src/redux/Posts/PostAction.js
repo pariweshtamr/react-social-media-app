@@ -15,7 +15,13 @@ export const fetchTimelinePosts = (id) => async (dispatch) => {
   dispatch(requestPending())
   const data = await getTimelinePosts(id)
   try {
-    dispatch(getPostsSuccess(data))
+    dispatch(
+      getPostsSuccess(
+        data.sort((p1, p2) => {
+          return new Date(p2.createdAt) - new Date(p1.createdAt)
+        }),
+      ),
+    )
   } catch (error) {
     dispatch(getPostsFail(data))
   }
@@ -25,7 +31,13 @@ export const fetchAllUserPosts = (username) => async (dispatch) => {
   dispatch(requestPending())
   const data = await getAllUserPosts(username)
   try {
-    dispatch(getPostsSuccess(data))
+    dispatch(
+      getPostsSuccess(
+        data.sort((p1, p2) => {
+          return new Date(p2.createdAt) - new Date(p1.createdAt)
+        }),
+      ),
+    )
   } catch (error) {
     dispatch(getPostsFail(data))
   }
