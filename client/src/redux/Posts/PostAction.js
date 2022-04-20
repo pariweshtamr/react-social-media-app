@@ -37,15 +37,5 @@ export const createPostAction = (newPost) => async (dispatch) => {
 
   if (data?.status === 'success') {
     dispatch(createPostSuccess(data))
-    dispatch(getPostsSuccess())
-  }
-}
-
-export const createPostWithImgAction = (newPost) => async (dispatch) => {
-  dispatch(requestPending())
-  const data = await createPostWithImg(newPost)
-
-  if (data?.status === 'success') {
-    dispatch(createPostSuccess(data))
   }
 }

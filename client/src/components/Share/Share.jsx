@@ -41,19 +41,18 @@ const Share = () => {
       // data.append('images', file)
 
       try {
-        dispatch(createPostWithImgAction(data))
+        dispatch(createPostAction(data))
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      try {
+        dispatch(createPostAction(newPost))
+        // window.location.reload()
       } catch (error) {
         console.log(error)
       }
     }
-    // } else {
-    //   try {
-    //     dispatch(createPostAction(newPost))
-    //     // window.location.reload()
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // }
   }
 
   return (

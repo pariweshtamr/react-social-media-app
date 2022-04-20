@@ -27,13 +27,3 @@ export const createPost = async (newPost) => {
     return error?.response?.data
   }
 }
-
-export const createPostWithImg = async (newPost) => {
-  try {
-    const { data } = await axios.post('/posts/upload', newPost)
-    return data
-  } catch (error) {
-    console.log(error)
-    return error?.response?.data
-  }
-}

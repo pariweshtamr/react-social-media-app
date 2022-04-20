@@ -4,35 +4,10 @@ import Post from '../models/Post/Post.schema.js'
 import { getUserById } from '../models/User/User.model.js'
 import User from '../models/User/User.schema.js'
 import multer from 'multer'
-import slugify from 'slugify'
 
 const postRouter = express.Router()
 
 // create a post
-postRouter.post('/', async (req, res) => {
-  try {
-    const post = await createPost(req.body)
-    res.status(200).json(post)
-  } catch (error) {
-    res.status(500).json(error)
-  }
-})
-
-// update a post
-postRouter.put('/:id', async (req, res) => {
-  try {
-    const post = await getPostById(req.params.id)
-
-    if (post.userId === req.body.userId) {
-      await post.updateOne({ $set: req.body })
-      res.status(200).json('The post has been updated')
-    } else {
-      res.status(403).json('You are only able to update your posts')
-    }
-  } catch (error) {
-    res.status(500).json(error)
-  }
-})
 
 // CONFIGURE MULTER FOR VALIDATION AND UPLOAD DESTINATION
 const storage = multer.diskStorage({
@@ -50,7 +25,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage })
 
-postRouter.post('/upload', upload.array('images', 12), async (req, res) => {
+postRouter.post('/', upload.array('images', 12), async (req, res) => {
   try {
     console.log(req.body, 'req.body')
     // FILE ZONE
@@ -58,7 +33,6 @@ postRouter.post('/upload', upload.array('images', 12), async (req, res) => {
     console.log(files, 'line 57')
     const images = []
 
-    const basePath = `${req.protocol}://${req.get('host')}/images/`
     files.map((file) => {
       const imgFullPath = file.filename
       images.push(imgFullPath)
@@ -79,6 +53,31 @@ postRouter.post('/upload', upload.array('images', 12), async (req, res) => {
           status: 'error',
           message: 'Unable to post. Please try again later.',
         })
+  } catch (error) {
+    res.status(500).json(error)
+  }
+})
+
+// postRouter.post('/', async (req, res) => {
+//   try {
+//     const post = await createPost(req.body)
+//     res.status(200).json(post)
+//   } catch (error) {
+//     res.status(500).json(error)
+//   }
+// })
+
+// update a post
+postRouter.put('/:id', async (req, res) => {
+  try {
+    const post = await getPostById(req.params.id)
+
+    if (post.userId === req.body.userId) {
+      await post.updateOne({ $set: req.body })
+      res.status(200).json('The post has been updated')
+    } else {
+      res.status(403).json('You are only able to update your posts')
+    }
   } catch (error) {
     res.status(500).json(error)
   }
