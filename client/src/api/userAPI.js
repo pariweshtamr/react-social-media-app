@@ -42,3 +42,16 @@ export const registerUser = async (newUser) => {
     }
   }
 }
+
+export const getFriends = async (userId) => {
+  try {
+    const { data } = await axios.get(`/users/friends/${userId}`, userId)
+    return data
+  } catch (error) {
+    console.log(error)
+    return {
+      status: 'error',
+      message: error.message,
+    }
+  }
+}

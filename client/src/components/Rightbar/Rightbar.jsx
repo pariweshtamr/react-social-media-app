@@ -1,9 +1,22 @@
 import './rightbar.css'
-import { Users } from '../../data'
 import OnlineUsers from '../OnlineUsers/OnlineUsers'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchFriends } from '../../redux/User/UserAction'
 
-const Rightbar = ({ user }) => {
+const Rightbar = () => {
+  const dispatch = useDispatch()
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
+  const { user } = useSelector((state) => state.user)
+  console.log(user)
+
+  useEffect(() => {
+    try {
+      dispatch(fetchFriends(user._id))
+    } catch (error) {
+      console.log(error)
+    }
+  }, [dispatch, user._id])
 
   const HomeRightbar = () => {
     return (
@@ -18,8 +31,8 @@ const Rightbar = ({ user }) => {
         <img className="rightbarAd" src="assets/ad.png" alt="" />
         <h4 className="rightbarTitle">Online Friends</h4>
         <ul className="rightbarFriendList">
-          {Users.map((user) => (
-            <OnlineUsers key={user.id} user={user} />
+          {user.following.map((u) => (
+            <OnlineUsers key={u._id} u={u} />
           ))}
         </ul>
       </>
@@ -53,46 +66,6 @@ const Rightbar = ({ user }) => {
 
         <h4 className="rightbarTitle">User Friends</h4>
         <div className="rightbarFollowings">
-          <div className="rightbarFollowing">
-            <img
-              className="rightbarFollowingImg"
-              src={`${PF}person/1.jpeg`}
-              alt=""
-            />
-            <span className="rightbarFollowingName">Safak</span>
-          </div>
-          <div className="rightbarFollowing">
-            <img
-              className="rightbarFollowingImg"
-              src={`${PF}person/1.jpeg`}
-              alt=""
-            />
-            <span className="rightbarFollowingName">Safak</span>
-          </div>
-          <div className="rightbarFollowing">
-            <img
-              className="rightbarFollowingImg"
-              src={`${PF}person/1.jpeg`}
-              alt=""
-            />
-            <span className="rightbarFollowingName">Safak</span>
-          </div>
-          <div className="rightbarFollowing">
-            <img
-              className="rightbarFollowingImg"
-              src={`${PF}person/1.jpeg`}
-              alt=""
-            />
-            <span className="rightbarFollowingName">Safak</span>
-          </div>
-          <div className="rightbarFollowing">
-            <img
-              className="rightbarFollowingImg"
-              src={`${PF}person/1.jpeg`}
-              alt=""
-            />
-            <span className="rightbarFollowingName">Safak</span>
-          </div>
           <div className="rightbarFollowing">
             <img
               className="rightbarFollowingImg"

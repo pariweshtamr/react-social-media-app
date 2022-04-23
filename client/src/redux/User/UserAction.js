@@ -1,10 +1,12 @@
 import {
   getUserById,
   getUserByUsername,
+  getFriends,
   loginUser,
   registerUser,
 } from '../../api/userAPI'
 import {
+  getFriendsSuccess,
   loginFail,
   loginSuccess,
   registerSuccess,
@@ -44,4 +46,14 @@ export const userLogin = (userCredentials) => async (dispatch) => {
   }
 
   dispatch(loginFail(data))
+}
+
+export const fetchFriends = (userId) => async (dispatch) => {
+  dispatch(requestPending())
+
+  // call api to get friends
+  const data = await getFriends(userId)
+  if (data) {
+    return dispatch(getFriendsSuccess(data))
+  }
 }
