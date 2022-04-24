@@ -37,11 +37,11 @@ Content-Type: : application/json
 }
 
 ### follow a user
-PUT http://localhost:8000/api/users/62552cb46664540e248e39d5/follow
+PUT http://localhost:8000/api/users/6264c845421e13f25254084d/follow
 Content-Type: application/json
 
 {
-    "userId": "62526c796664540e248e39a7"
+    "userId": "6264c74b421e13f252540844"
 }
 
 ### unfollow a user

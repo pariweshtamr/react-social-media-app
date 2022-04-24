@@ -47,13 +47,3 @@ export const userLogin = (userCredentials) => async (dispatch) => {
 
   dispatch(loginFail(data))
 }
-
-export const fetchFriends = (userId) => async (dispatch) => {
-  dispatch(requestPending())
-
-  // call api to get friends
-  const data = await getFriends(userId)
-  if (data) {
-    return dispatch(getFriendsSuccess(data))
-  }
-}

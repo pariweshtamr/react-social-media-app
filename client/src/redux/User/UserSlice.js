@@ -18,7 +18,6 @@ const userSlice = createSlice({
 
     getFriendsSuccess: (state, action) => {
       state.isLoading = false
-      state.user.following = action.payload
     },
 
     registerSuccess: (state, action) => {
@@ -35,6 +34,20 @@ const userSlice = createSlice({
     loginFail: (state, action) => {
       state.isLoading = false
       state.error = action.payload
+    },
+
+    followUser: (state, action) => {
+      state.user = {
+        ...state.user,
+        following: [...state.user.following, action.payload],
+      }
+    },
+
+    unfollowUser: (state, action) => {
+      state.user = {
+        ...state.user,
+        following: state.user.following.filter((f) => f !== action.payload),
+      }
     },
 
     requestFail: (state, action) => {
@@ -55,6 +68,8 @@ export const {
   loginSuccess,
   loginFail,
   requestFail,
+  followUser,
+  unfollowUser,
 } = actions
 
 export default reducer

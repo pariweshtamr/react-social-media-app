@@ -1,5 +1,5 @@
 import Feed from '../../components/Feed/Feed'
-import Rightbar from '../../components/Rightbar/Rightbar'
+import HomeRightbar from '../../components/Rightbar/HomeRightbar'
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Topbar from '../../components/Topbar/Topbar'
 import './home.css'
@@ -11,7 +11,7 @@ const Home = () => {
       <div className="homeContainer">
         <Sidebar />
         <Feed />
-        <Rightbar />
+        <HomeRightbar />
       </div>
     </>
   )

@@ -1,23 +1,27 @@
 import './profile.css'
 import Feed from '../../components/Feed/Feed'
-import Rightbar from '../../components/Rightbar/Rightbar'
+import ProfileRightbar from '../../components/Rightbar/ProfileRightbar'
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Topbar from '../../components/Topbar/Topbar'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchUserByUsername } from '../../redux/User/UserAction'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { fetchUserByUsername } from '../../redux/User/UserAction'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUserByUsername } from '../../api/userAPI'
 
 const Profile = () => {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
   const dispatch = useDispatch()
+  const [user, setUser] = useState({})
   const { username } = useParams()
 
-  const { user, isLoading, error } = useSelector((state) => state.user)
-
   useEffect(() => {
-    dispatch(fetchUserByUsername(username))
-  }, [dispatch, username])
+    const fetchUser = async () => {
+      const data = await getUserByUsername(username)
+      setUser(data)
+    }
+    fetchUser()
+  }, [username])
 
   return (
     <>
@@ -53,7 +57,7 @@ const Profile = () => {
           </div>
           <div className="profileRightBottom">
             <Feed username={username} />
-            <Rightbar user={user} />
+            <ProfileRightbar user={user} />
           </div>
         </div>
       </div>
