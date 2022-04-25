@@ -16,7 +16,7 @@ export const isUser = async (req, res, next) => {
           message: 'jwt expired',
         })
       }
-      const session = decoded?.username
+      const session = decoded?.email
         ? await getSession({ token: authorization })
         : null
 

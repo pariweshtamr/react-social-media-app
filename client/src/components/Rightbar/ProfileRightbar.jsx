@@ -9,7 +9,9 @@ import { followUser, unfollowUser } from '../../redux/User/UserSlice'
 const ProfileRightbar = ({ user }) => {
   const [friends, setFriends] = useState([])
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
-  const { user: currentUser } = useSelector((state) => state.user)
+  // const { user: currentUser } = useSelector((state) => state.user)
+  const currentUser = JSON.parse(localStorage.getItem('authState'))
+
   const [followed, setFollowed] = useState(
     currentUser.following.includes(user?._id),
   )

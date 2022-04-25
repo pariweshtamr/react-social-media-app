@@ -9,13 +9,8 @@ import { useEffect } from 'react'
 import './home.css'
 
 const Home = () => {
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
-  // const { user, isLoggedIn } = useSelector((state) => state.user)
-  // useEffect(() => {
-  //   isLoggedIn && dispatch(fetchUserDetails())
-  // }, [isLoggedIn, dispatch])
-  // console.log(isLoggedIn, user)
   return (
     <>
       <Topbar />

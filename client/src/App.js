@@ -15,25 +15,18 @@ import { loginAuto } from './redux/User/UserSlice'
 
 function App() {
   const dispatch = useDispatch()
-  const { isLoggedIn } = useSelector((state) => state.user)
+  const { user, isLoggedIn } = useSelector((state) => state.user)
   useEffect(() => {
+    !user && dispatch(fetchUserDetails())
     !isLoggedIn && dispatch(autoLogin())
-
-    isLoggedIn && dispatch(fetchUserDetails())
-  }, [isLoggedIn, dispatch])
+  }, [user, isLoggedIn, dispatch])
   return (
     <Router>
       <Routes>
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/profile/:username" element={<Profile />}></Route>
-        <Route
-          path="/login"
-          element={isLoggedIn ? <Navigate to="/" /> : <Login />}
-        ></Route>
-        <Route
-          path="/register"
-          element={isLoggedIn ? <Navigate to="/" /> : <Register />}
-        ></Route>
+
+        <Route path="/register" element={<Register />}></Route>
         <Route
           path="/"
           exact

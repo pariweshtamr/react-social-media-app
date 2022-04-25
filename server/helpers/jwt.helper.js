@@ -2,9 +2,9 @@ import jwt from 'jsonwebtoken'
 import { storeSession } from '../models/Session/Session.model.js'
 import { setRefreshJWT } from '../models/User/User.model.js'
 
-export const createAccessJWT = async ({ _id, username }) => {
-  const token = jwt.sign({ username }, process.env.JWT_ACCESS_SECRET, {
-    expiresIn: '5min',
+export const createAccessJWT = async ({ _id, email }) => {
+  const token = jwt.sign({ email }, process.env.JWT_ACCESS_SECRET, {
+    expiresIn: '1d',
   })
   // STORE IN DB
   const result = await storeSession({ type: 'accessJWT', token, userId: _id })

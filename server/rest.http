@@ -26,6 +26,10 @@ DELETE http://localhost:8000/api/users/62522131c954215d69533606
 ### get user
 GET http://localhost:8000/api/users/62526c796664540e248e39a7
 
+### get user
+GET http://localhost:8000/api/users/auth
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZ21haWwuY29tIiwiaWF0IjoxNjUwODQ5MjM2LCJleHAiOjE2NTA5MzU2MzZ9.K6Nyy7BvcBxnj5mH0p2Ykm7mX9mOaQTHfN5PWELxF2Y
+
 ### Update user
 PUT http://localhost:8000/api/users/62522131c954215d69533606/
 Content-Type: : application/json

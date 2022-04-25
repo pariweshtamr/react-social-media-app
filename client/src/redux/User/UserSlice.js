@@ -35,6 +35,7 @@ const userSlice = createSlice({
     loginAuto: (state) => {
       state.isAutoLoginPending = false
       state.isLoggedIn = true
+      state.user = JSON.parse(localStorage.getItem('authState'))
     },
 
     autoLoginPending: (state, action) => {

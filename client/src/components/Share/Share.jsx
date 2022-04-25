@@ -1,24 +1,27 @@
 import './share.css'
-import { PermMedia, Label, Room, EmojiEmotions } from '@mui/icons-material'
+import {
+  PermMedia,
+  Label,
+  Room,
+  EmojiEmotions,
+  Cancel,
+} from '@mui/icons-material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRef, useState } from 'react'
-import {
-  createPostAction,
-  createPostWithImgAction,
-} from '../../redux/Posts/PostAction'
+import { createPostAction } from '../../redux/Posts/PostAction'
 
 const Share = () => {
   const { user } = useSelector((state) => state.user)
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
   const description = useRef()
   const dispatch = useDispatch()
-  const [images, setImages] = useState([])
+  const [images, setImages] = useState(null)
 
   const handleOnImageSelect = (e) => {
-    const { files } = e.target
-
-    setImages(files)
+    const data = e.target.files
+    setImages(data)
   }
+  console.log(images)
 
   const handleOnSubmit = async (e) => {
     e.preventDefault()
@@ -38,8 +41,6 @@ const Share = () => {
       data.append('description', desc)
       images.length && [...images].map((img) => data.append('images', img))
 
-      // data.append('images', file)
-
       try {
         dispatch(createPostAction(data))
       } catch (error) {
@@ -48,11 +49,12 @@ const Share = () => {
     } else {
       try {
         dispatch(createPostAction(newPost))
-        // window.location.reload()
       } catch (error) {
         console.log(error)
       }
     }
+
+    window.location.reload()
   }
 
   return (
@@ -75,6 +77,17 @@ const Share = () => {
           />
         </div>
         <hr className="shareHr" />
+        {images && (
+          <div className="shareImgContainer">
+            b
+            {/* URL.createObjectURL allows us to create some pseudo url to see our file before uploading*/}
+            <img src={''} className="shareImg" alt="" />
+            <Cancel
+              className="shareCancelImg"
+              onClick={() => setImages(null)}
+            />
+          </div>
+        )}
         <form className="shareBottom" onSubmit={handleOnSubmit}>
           <div className="shareOptions">
             <label htmlFor="file" className="shareOption">

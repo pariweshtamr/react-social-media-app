@@ -20,10 +20,11 @@ const Feed = ({ username }) => {
       dispatch(fetchTimelinePosts(user._id))
     }
   }, [dispatch, username, user._id])
+
   return (
     <div className="feed">
       <div className="feedWrapper">
-        {username === user.username && <Share />}
+        {(!username || username === user.username) && <Share />}
         {posts.map((post) => (
           <Post key={post._id} post={post} />
         ))}
