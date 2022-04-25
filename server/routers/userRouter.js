@@ -1,11 +1,15 @@
 import express from 'express'
 import { comparePassword, hashPassword } from '../helpers/bcrypt.helper.js'
+import { getJWTs } from '../helpers/jwt.helper.js'
+import { isUser } from '../middlewares/auth.middleware.js'
+import { removeSession } from '../models/Session/Session.model.js'
 import {
   createUser,
   deleteUser,
   getUserByEmail,
   getUserById,
   getUserByUsername,
+  removeRefreshJWT,
 } from '../models/User/User.model.js'
 import User from '../models/User/User.schema.js'
 
@@ -58,10 +62,13 @@ userRouter.post('/login', async (req, res) => {
       const isPasswordMatch = comparePassword(password, user.password)
 
       if (isPasswordMatch) {
+        // GET JWTs then send to client
+        const jwts = await getJWTs({ _id: user._id, email: user.email })
         user.password = undefined
         return res.json({
           status: 'success',
           message: 'Login Successful',
+          jwts,
           user,
         })
       } else {
@@ -77,6 +84,26 @@ userRouter.post('/login', async (req, res) => {
     res.status(500).json({
       status: 'error',
       message: 'Error, unable to login at the moment. Please try again later',
+    })
+  }
+})
+
+//LOGOUT
+userRouter.post('/logout', async (req, res) => {
+  try {
+    const { accessJWT, refreshJWT } = req.body
+    accessJWT && (await removeSession(accessJWT))
+    refreshJWT && (await removeRefreshJWT(refreshJWT))
+
+    res.json({
+      status: 'success',
+      message: 'Logging out...',
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      status: 'error',
+      message: 'Error, unable to Logout, Please try again later.',
     })
   }
 })
@@ -136,6 +163,17 @@ userRouter.get('/', async (req, res) => {
   } catch (error) {
     res.status(500).json(error)
   }
+})
+
+// Get user info
+userRouter.get('/auth', isUser, (req, res) => {
+  req.user.password = undefined
+  req.user.refreshJWT = undefined
+  res.json({
+    status: 'success',
+    message: 'User Profile',
+    user: req.user,
+  })
 })
 
 // get friends or following users

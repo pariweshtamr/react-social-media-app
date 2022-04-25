@@ -29,10 +29,12 @@ app.use(morgan('tiny'))
 // IMPORT ROUTERS
 import userRouter from './routers/userRouter.js'
 import postRouter from './routers/postRouter.js'
+import tokenRouter from './routers/tokenRouter.js'
 
 // USE ROUTERS
 app.use('/api/users', userRouter)
 app.use('/api/posts', postRouter)
+app.use('/api/token', tokenRouter)
 
 app.use('/', (req, res) => {
   res.json({ message: 'Server is ready' })

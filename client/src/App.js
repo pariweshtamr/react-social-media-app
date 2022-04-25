@@ -10,15 +10,17 @@ import Profile from './pages/Profile/Profile'
 import Register from './pages/Register/Register'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchUser } from './redux/User/UserAction'
+import { autoLogin, fetchUserDetails } from './redux/User/UserAction'
+import { loginAuto } from './redux/User/UserSlice'
 
 function App() {
-  const { isLoggedIn } = useSelector((state) => state.user)
   const dispatch = useDispatch()
+  const { isLoggedIn } = useSelector((state) => state.user)
+  useEffect(() => {
+    !isLoggedIn && dispatch(autoLogin())
 
-  // useEffect(() => {
-  //   user && dispatch(fetchUser())
-  // }, [user, dispatch])
+    isLoggedIn && dispatch(fetchUserDetails())
+  }, [isLoggedIn, dispatch])
   return (
     <Router>
       <Routes>

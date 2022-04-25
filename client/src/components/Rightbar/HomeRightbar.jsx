@@ -2,13 +2,18 @@ import './rightbar.css'
 import OnlineUsers from '../OnlineUsers/OnlineUsers'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchFriends } from '../../redux/User/UserAction'
+import {
+  autoLogin,
+  fetchFriends,
+  fetchUserDetails,
+} from '../../redux/User/UserAction'
 import { Link } from 'react-router-dom'
 
 const HomeRightbar = () => {
   const dispatch = useDispatch()
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
   const { user } = useSelector((state) => state.user)
+
   return (
     <>
       <div className="rightbar">

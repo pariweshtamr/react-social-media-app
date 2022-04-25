@@ -35,3 +35,17 @@ export const updateUserProfile = (_id, updateUser) => {
     throw new Error(error)
   }
 }
+
+export const getUserByEmailAndRefreshToken = (filter) => {
+  return User.findOne(filter)
+}
+
+export const setRefreshJWT = (_id, token) => {
+  return User.findByIdAndUpdate(_id, {
+    refreshJWT: token,
+  })
+}
+
+export const removeRefreshJWT = (refreshJWT) => {
+  return User.findOneAndUpdate({ refreshJWT }, { refreshJWT: '' })
+}

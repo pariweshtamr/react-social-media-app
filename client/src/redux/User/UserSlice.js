@@ -3,8 +3,11 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   user: {},
   userRegisterResponse: {},
-  isLoggedIn: false,
+  isLoggedIn: JSON.parse(localStorage.getItem('authState'))?.isLoggedIn
+    ? JSON.parse(localStorage.getItem('authState')).isLoggedIn
+    : false,
   isLoading: false,
+  isAutoLoginPending: false,
   error: false,
 }
 
@@ -16,10 +19,6 @@ const userSlice = createSlice({
       state.isLoading = true
     },
 
-    getFriendsSuccess: (state, action) => {
-      state.isLoading = false
-    },
-
     registerSuccess: (state, action) => {
       state.isLoading = false
       state.userRegisterResponse = action.payload || {}
@@ -29,6 +28,23 @@ const userSlice = createSlice({
       state.isLoading = false
       state.isLoggedIn = true
       state.user = action.payload
+
+      localStorage.setItem('authState', JSON.stringify(action.payload))
+    },
+
+    loginAuto: (state) => {
+      state.isAutoLoginPending = false
+      state.isLoggedIn = true
+    },
+
+    autoLoginPending: (state, action) => {
+      state.isAutoLoginPending = action.payload
+    },
+    logoutSuccess: (state) => {
+      state.user = {}
+      state.isLoggedIn = false
+      state.isAutoLoginPending = false
+      localStorage.clear()
     },
 
     loginFail: (state, action) => {
@@ -66,7 +82,10 @@ export const {
   getFriendsSuccess,
   registerSuccess,
   loginSuccess,
+  loginAuto,
   loginFail,
+  logoutSuccess,
+  autoLoginPending,
   requestFail,
   followUser,
   unfollowUser,

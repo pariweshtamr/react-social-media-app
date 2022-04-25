@@ -18,6 +18,20 @@ export const getUserByUsername = async (username) => {
   }
 }
 
+export const getUser = async () => {
+  try {
+    const { data } = await axios.get('/users/auth', {
+      headers: {
+        authorization: window.sessionStorage.getItem('accessJWT'),
+      },
+    })
+    console.log(data)
+    return data
+  } catch (error) {
+    console.log(error)
+    return error?.response?.data
+  }
+}
 export const loginUser = async (userCredentials) => {
   try {
     const { data } = await axios.post('/users/login', userCredentials)
@@ -39,6 +53,18 @@ export const registerUser = async (newUser) => {
     return {
       status: 'error',
       message: error.message,
+    }
+  }
+}
+
+export const logoutUser = async (tokens) => {
+  try {
+    const { data } = await axios.post('/users/logout', tokens)
+    return data
+  } catch (error) {
+    return {
+      status: 'error',
+      message: 'Error, unable to process your request. Please try again later.',
     }
   }
 }
