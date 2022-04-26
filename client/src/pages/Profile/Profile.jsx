@@ -5,13 +5,10 @@ import Sidebar from '../../components/Sidebar/Sidebar'
 import Topbar from '../../components/Topbar/Topbar'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { fetchUserByUsername } from '../../redux/User/UserAction'
-import { useDispatch, useSelector } from 'react-redux'
 import { getUserByUsername } from '../../api/userAPI'
 
 const Profile = () => {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
-  const dispatch = useDispatch()
   const [user, setUser] = useState({})
   const { username } = useParams()
 

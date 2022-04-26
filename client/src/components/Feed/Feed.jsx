@@ -1,16 +1,11 @@
 import { useEffect, useState } from 'react'
 import Post from '../Post/Post'
 import Share from '../Share/Share'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import './feed.css'
-import {
-  fetchAllUserPosts,
-  fetchTimelinePosts,
-} from '../../redux/Posts/PostAction'
 import { getAllUserPosts, getTimelinePosts } from '../../api/postAPI'
 
 const Feed = ({ username }) => {
-  const dispatch = useDispatch()
   const [posts, setPosts] = useState([])
   const { user } = useSelector((state) => state.user)
 

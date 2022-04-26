@@ -1,22 +1,16 @@
 import './login.css'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { CircularProgress } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  autoLogin,
-  fetchUserDetails,
-  userLogin,
-} from '../../redux/User/UserAction'
+import { userLogin } from '../../redux/User/UserAction'
 
 const Login = () => {
   const email = useRef()
   const password = useRef()
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { user, isLoggedIn, isLoading, error } = useSelector(
-    (state) => state.user,
-  )
+  const { isLoading } = useSelector((state) => state.user)
 
   const handleOnSubmit = (e) => {
     e.preventDefault()

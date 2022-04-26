@@ -1,8 +1,6 @@
 import { getNewAccessJWT, updateAccessJWT } from '../../api/tokenAPI'
 import {
   getUserById,
-  getUserByUsername,
-  getFriends,
   loginUser,
   registerUser,
   getUser,
@@ -10,7 +8,6 @@ import {
 } from '../../api/userAPI'
 import {
   autoLoginPending,
-  getFriendsSuccess,
   loginAuto,
   loginFail,
   loginSuccess,
@@ -23,12 +20,6 @@ import {
 export const fetchUserById = (userId) => async (dispatch) => {
   dispatch(requestPending())
   const data = await getUserById(userId)
-  return data
-}
-
-export const fetchUserByUsername = (username) => async (dispatch) => {
-  dispatch(requestPending())
-  const data = await getUserByUsername(username)
   return data
 }
 

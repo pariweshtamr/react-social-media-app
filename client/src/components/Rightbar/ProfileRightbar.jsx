@@ -1,6 +1,6 @@
 import './rightbar.css'
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { Add, Remove } from '@mui/icons-material'
@@ -9,7 +9,6 @@ import { followUser, unfollowUser } from '../../redux/User/UserSlice'
 const ProfileRightbar = ({ user }) => {
   const [friends, setFriends] = useState([])
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
-  // const { user: currentUser } = useSelector((state) => state.user)
   const currentUser = JSON.parse(localStorage.getItem('authState'))
 
   const [followed, setFollowed] = useState(

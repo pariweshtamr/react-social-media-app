@@ -11,7 +11,7 @@ const Post = ({ post }) => {
   const [like, setLike] = useState(post.likes.length)
   const [isLiked, setIsLiked] = useState(false)
   const dispatch = useDispatch()
-  const { user, isLoading, error } = useSelector((state) => state.user)
+  const { user } = useSelector((state) => state.user)
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
 
   // check if the post has already been liked by the user

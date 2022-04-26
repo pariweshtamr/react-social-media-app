@@ -11,7 +11,6 @@ import Register from './pages/Register/Register'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { autoLogin, fetchUserDetails } from './redux/User/UserAction'
-import { loginAuto } from './redux/User/UserSlice'
 
 function App() {
   const dispatch = useDispatch()
@@ -26,7 +25,14 @@ function App() {
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/profile/:username" element={<Profile />}></Route>
 
-        <Route path="/register" element={<Register />}></Route>
+        <Route
+          path="/login"
+          element={isLoggedIn ? <Navigate to="/" /> : <Login />}
+        ></Route>
+        <Route
+          path="/register"
+          element={isLoggedIn ? <Navigate to="/" /> : <Register />}
+        ></Route>
         <Route
           path="/"
           exact
