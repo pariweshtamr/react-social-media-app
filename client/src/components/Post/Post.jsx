@@ -6,27 +6,32 @@ import { format } from 'timeago.js'
 import { Link } from 'react-router-dom'
 import { fetchUserById } from '../../redux/User/UserAction'
 import axios from 'axios'
+import { getUserById } from '../../api/userAPI'
 
 const Post = ({ post }) => {
+  const [user, setUser] = useState({})
   const [like, setLike] = useState(post.likes.length)
   const [isLiked, setIsLiked] = useState(false)
-  const dispatch = useDispatch()
-  const { user } = useSelector((state) => state.user)
+  const { user: currentUser } = useSelector((state) => state.user)
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
 
   // check if the post has already been liked by the user
   useEffect(() => {
-    setIsLiked(post.likes.includes(user._id))
-  }, [user._id, post.likes])
+    setIsLiked(post.likes.includes(currentUser._id))
+  }, [currentUser._id, post.likes])
 
   // fetch user
   useEffect(() => {
-    dispatch(fetchUserById(post.userId))
-  }, [dispatch, post.userId])
+    const fetchUser = async () => {
+      const data = await getUserById(post.userId)
+      setUser(data)
+    }
+    fetchUser()
+  }, [post.userId])
 
   const likeHandler = () => {
     try {
-      axios.put(`/posts/${post._id}/like`, { userId: user._id })
+      axios.put(`/posts/${post._id}/like`, { userId: currentUser._id })
     } catch (error) {}
 
     setLike(isLiked ? like - 1 : like + 1)
