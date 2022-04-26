@@ -16,56 +16,54 @@ const storage = multer.diskStorage({
     cb(error, 'public/images')
   },
   filename: function (req, file, cb) {
-    const fileName = file.originalname
-    const fullFileName = Date.now() + '-' + fileName
-
-    cb(null, fullFileName)
+    cb(null, req.body.name)
   },
+  // filename: function (req, file, cb) {
+  //   const fileName = file.originalname
+  //   const fullFileName = Date.now() + '-' + fileName
+
+  //   cb(null, fullFileName)
+  // },
 })
 
 const upload = multer({ storage })
 
-postRouter.post('/', upload.array('images', 12), async (req, res) => {
+postRouter.post('/upload', upload.single('image'), async (req, res) => {
   try {
-    console.log(req.body, 'req.body')
-    // FILE ZONE
-    const files = req.files
-    console.log(files, 'line 57')
-    const images = []
+    return res.status(200).json('File uploded successfully')
 
-    files.map((file) => {
-      const imgFullPath = file.filename
-      images.push(imgFullPath)
-    })
+    // console.log(req.body, 'req.body')
+    // // FILE ZONE
+    // const image = req.files
 
-    console.log(images, 'line 66')
+    // console.log(image, 'line 66')
 
-    const post = await createPost({ ...req.body, images })
+    // const post = await createPost({ ...req.body, image })
 
-    console.log(post, 'post router line 70')
+    // console.log(post, 'post router line 70')
 
-    post?._id
-      ? res.json({
-          status: 'success',
-          message: 'New post has been successfully posted',
-        })
-      : res.json({
-          status: 'error',
-          message: 'Unable to post. Please try again later.',
-        })
+    // post?._id
+    //   ? res.json({
+    //       status: 'success',
+    //       message: 'New post has been successfully posted',
+    //     })
+    //   : res.json({
+    //       status: 'error',
+    //       message: 'Unable to post. Please try again later.',
+    //     })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+postRouter.post('/', async (req, res) => {
+  try {
+    const post = await createPost(req.body)
+    res.status(200).json(post)
   } catch (error) {
     res.status(500).json(error)
   }
 })
-
-// postRouter.post('/', async (req, res) => {
-//   try {
-//     const post = await createPost(req.body)
-//     res.status(200).json(post)
-//   } catch (error) {
-//     res.status(500).json(error)
-//   }
-// })
 
 // update a post
 postRouter.put('/:id', async (req, res) => {

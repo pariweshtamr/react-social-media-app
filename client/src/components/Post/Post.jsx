@@ -58,7 +58,7 @@ const Post = ({ post }) => {
         </div>
         <div className="postCenter">
           <span className="postText">{post?.description}</span>
-          <img className="postImg" src={PF + post.images[0]} alt="" />
+          <img className="postImg" src={PF + post.image} alt="" />
         </div>
         <div className="postBottom">
           <div className="postBottomLeft">

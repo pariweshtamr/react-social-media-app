@@ -8,20 +8,23 @@ import {
 } from '@mui/icons-material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRef, useState } from 'react'
-import { createPostAction } from '../../redux/Posts/PostAction'
+import {
+  createPostAction,
+  createPostWithImgAction,
+} from '../../redux/Posts/PostAction'
 
 const Share = () => {
   const { user } = useSelector((state) => state.user)
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
   const description = useRef()
   const dispatch = useDispatch()
-  const [images, setImages] = useState(null)
+  const [image, setImage] = useState(null)
 
   const handleOnImageSelect = (e) => {
-    const data = e.target.files
-    setImages(data)
+    const data = e.target.files[0]
+    setImage(data)
   }
-  console.log(images)
+  console.log(image)
 
   const handleOnSubmit = async (e) => {
     e.preventDefault()
@@ -31,27 +34,31 @@ const Share = () => {
       description: description.current.value,
     }
 
-    if (images) {
-      const userId = user._id
-      const desc = description.current.value
+    if (image) {
+      // const userId = user._id
+      // const desc = description.current.value
 
       const data = new FormData()
+      const fileName = Date.now() + image.name
 
-      data.append('userId', userId)
-      data.append('description', desc)
-      images.length && [...images].map((img) => data.append('images', img))
+      // data.append('userId', userId)
+      // data.append('description', desc)
+      data.append('name', fileName)
+      data.append('image', image)
+      newPost.image = fileName
+
+      console.log(newPost)
 
       try {
-        dispatch(createPostAction(data))
+        dispatch(createPostWithImgAction(data))
       } catch (error) {
         console.log(error)
       }
-    } else {
-      try {
-        dispatch(createPostAction(newPost))
-      } catch (error) {
-        console.log(error)
-      }
+    }
+    try {
+      dispatch(createPostAction(newPost))
+    } catch (error) {
+      console.log(error)
     }
 
     window.location.reload()
@@ -77,15 +84,11 @@ const Share = () => {
           />
         </div>
         <hr className="shareHr" />
-        {images && (
+        {image && (
           <div className="shareImgContainer">
-            b
+            <Cancel className="shareCancelImg" onClick={() => setImage(null)} />
             {/* URL.createObjectURL allows us to create some pseudo url to see our file before uploading*/}
-            <img src={''} className="shareImg" alt="" />
-            <Cancel
-              className="shareCancelImg"
-              onClick={() => setImages(null)}
-            />
+            <img src={URL.createObjectURL(image)} className="shareImg" alt="" />
           </div>
         )}
         <form className="shareBottom" onSubmit={handleOnSubmit}>
