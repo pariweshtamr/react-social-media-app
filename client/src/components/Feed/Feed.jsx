@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Post from '../Post/Post'
 import Share from '../Share/Share'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,19 +7,27 @@ import {
   fetchAllUserPosts,
   fetchTimelinePosts,
 } from '../../redux/Posts/PostAction'
+import { getAllUserPosts, getTimelinePosts } from '../../api/postAPI'
 
 const Feed = ({ username }) => {
   const dispatch = useDispatch()
-  const { isLoading, posts, error } = useSelector((state) => state.posts || [])
+  const [posts, setPosts] = useState([])
   const { user } = useSelector((state) => state.user)
 
   useEffect(() => {
-    if (username) {
-      dispatch(fetchAllUserPosts(username))
-    } else {
-      dispatch(fetchTimelinePosts(user._id))
+    const fetchPosts = async () => {
+      const data = username
+        ? await getAllUserPosts(username)
+        : await getTimelinePosts(user._id)
+
+      setPosts(
+        data.sort((p1, p2) => {
+          return new Date(p2.createdAt) - new Date(p1.createdAt)
+        }),
+      )
     }
-  }, [dispatch, username, user._id])
+    fetchPosts()
+  }, [username, user._id])
 
   return (
     <div className="feed">

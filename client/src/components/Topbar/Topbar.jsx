@@ -2,16 +2,27 @@ import './topbar.css'
 import { Search, Person, Chat, Notifications } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { userLogout } from '../../redux/User/UserAction'
 
 const Topbar = () => {
+  const dispatch = useDispatch()
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
   const { user } = useSelector((state) => state.user)
+
+  const signoutHandler = () => {
+    dispatch(userLogout())
+  }
 
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">
         <Link to="/" style={{ textDecoration: 'none' }}>
           <span className="topbarLogo">Social</span>
+        </Link>
+        <Link to="/">
+          <span style={{ color: 'white' }} onClick={signoutHandler}>
+            LOGOUT
+          </span>
         </Link>
       </div>
       <div className="topbarCenter">
