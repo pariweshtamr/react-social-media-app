@@ -35,14 +35,9 @@ const Share = () => {
     }
 
     if (image) {
-      // const userId = user._id
-      // const desc = description.current.value
-
       const data = new FormData()
       const fileName = Date.now() + image.name
 
-      // data.append('userId', userId)
-      // data.append('description', desc)
       data.append('name', fileName)
       data.append('image', image)
       newPost.image = fileName
