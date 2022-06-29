@@ -1,10 +1,9 @@
 import './post.css'
 import { MoreVert } from '@mui/icons-material'
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { format } from 'timeago.js'
 import { Link } from 'react-router-dom'
-import { fetchUserById } from '../../redux/User/UserAction'
 import axios from 'axios'
 import { getUserById } from '../../api/userAPI'
 

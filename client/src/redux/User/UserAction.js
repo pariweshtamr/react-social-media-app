@@ -1,11 +1,5 @@
 import { getNewAccessJWT, updateAccessJWT } from '../../api/tokenAPI'
-import {
-  getUserById,
-  loginUser,
-  registerUser,
-  getUser,
-  logoutUser,
-} from '../../api/userAPI'
+import { loginUser, registerUser, getUser, logoutUser } from '../../api/userAPI'
 import {
   autoLoginPending,
   loginAuto,
@@ -16,12 +10,6 @@ import {
   requestFail,
   requestPending,
 } from './UserSlice'
-
-export const fetchUserById = (userId) => async (dispatch) => {
-  dispatch(requestPending())
-  const data = await getUserById(userId)
-  return data
-}
 
 export const userRegister = (newUser) => async (dispatch) => {
   dispatch(requestPending())
