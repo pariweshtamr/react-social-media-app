@@ -3,14 +3,15 @@ import {
   Routes,
   Route,
   Navigate,
-} from 'react-router-dom'
-import Home from './pages/Home/Home'
-import Login from './pages/Login/Login'
-import Profile from './pages/Profile/Profile'
-import Register from './pages/Register/Register'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { autoLogin, fetchUserDetails } from './redux/User/UserAction'
+} from "react-router-dom"
+import Home from "./pages/Home/Home"
+import Login from "./pages/Login/Login"
+import Profile from "./pages/Profile/Profile"
+import Register from "./pages/Register/Register"
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { autoLogin, fetchUserDetails } from "./redux/User/UserAction"
+import Messenger from "./pages/Messenger/Messenger"
 
 function App() {
   const dispatch = useDispatch()
@@ -32,6 +33,10 @@ function App() {
         <Route
           path="/register"
           element={isLoggedIn ? <Navigate to="/" /> : <Register />}
+        ></Route>
+        <Route
+          path="/messenger"
+          element={!user ? <Navigate to="/" /> : <Messenger />}
         ></Route>
         <Route
           path="/"
