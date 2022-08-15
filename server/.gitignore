@@ -4,13 +4,14 @@
 /node_modules
 /.pnp
 .pnp.js
-/rest.http
+
 
 # testing
 /coverage
 
 # production
 /build
+/rest.http
 
 # misc
 .DS_Store
