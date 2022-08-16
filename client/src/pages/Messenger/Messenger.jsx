@@ -6,6 +6,7 @@ import ChatOnline from "../../components/ChatOnline/ChatOnline"
 import Conversation from "../../components/Conversation/Conversation"
 import Message from "../../components/Message/Message"
 import Topbar from "../../components/Topbar/Topbar"
+import { io } from "socket.io-client"
 import "./messenger.css"
 
 const Messenger = () => {
@@ -13,8 +14,34 @@ const Messenger = () => {
   const [currentChat, setCurrentChat] = useState(null)
   const [messages, setMesssages] = useState([])
   const [newMessage, setNewMessage] = useState("")
+  const [arrivalMessage, setArrivalMessage] = useState(null)
+  const socket = useRef()
   const { user } = useSelector((state) => state.user)
   const scrollRef = useRef()
+
+  useEffect(() => {
+    socket.current = io("ws://localhost:8900")
+    socket.current.on("getMessage", (data) => {
+      setArrivalMessage({
+        sender: data.senderId,
+        text: data.text,
+        createdAt: Date.now(),
+      })
+    })
+  }, [])
+
+  useEffect(() => {
+    arrivalMessage &&
+      currentChat?.members.includes(arrivalMessage.sender) &&
+      setMesssages((prev) => [...prev, arrivalMessage])
+  }, [arrivalMessage, currentChat])
+
+  useEffect(() => {
+    socket?.current?.emit("addUser", user._id)
+    socket?.current?.on("getUsers", (users) => {
+      console.log(users)
+    })
+  }, [user])
 
   useEffect(() => {
     const getConversations = async () => {
@@ -51,6 +78,14 @@ const Messenger = () => {
       text: newMessage,
       conversationId: currentChat._id,
     }
+
+    const receiverId = currentChat.members.find((member) => member !== user._id)
+
+    socket.current.emit("sendMessage", {
+      senderId: user._id,
+      receiverId,
+      text: newMessage,
+    })
     try {
       const res = await axios.post("/messages", message)
       setMesssages([...messages, res.data])
